@@ -15,11 +15,14 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.b07application.databinding.ActivityMainBinding;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
+    public FirebaseDatabase db;
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
@@ -27,6 +30,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        db = FirebaseDatabase.getInstance("https://b07firebase-default-rtdb.firebaseio.com/");
+
+        //example of how to get a key from the database and set its value
+        //if message key does not exist in the database this will create a new message key and set its
+        //value to "Hello, World!". If message already exists, it will set its value to "Hello, World!"
+        //DatabaseReference myRef = db.getReference("message");
+        //myRef.setValue("Hello, World!");
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
