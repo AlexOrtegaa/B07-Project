@@ -20,4 +20,8 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="button_post_text">Check POSt Qualification</string>
+    <string name="post_activity_spinner_title">Select a Program:</string>
+    <string name="button_next_text">Next</string>
+    <string name="button_prev_text_prev">Previous</string>
 </resources>
