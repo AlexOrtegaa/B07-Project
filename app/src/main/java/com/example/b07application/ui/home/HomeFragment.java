@@ -1,5 +1,6 @@
 package com.example.b07application.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.b07application.PostActivity;
 import com.example.b07application.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
@@ -22,6 +24,15 @@ public class HomeFragment extends Fragment {
                 new ViewModelProvider(this).get(HomeViewModel.class);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
+
+        binding.checkPostButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), PostActivity.class);
+                startActivity(intent);
+            }
+        });
+
         View root = binding.getRoot();
 
         final TextView textView = binding.textHome;
