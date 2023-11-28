@@ -50,5 +50,6 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.5.0"))
     // Add the dependency for the Realtime Database library
     implementation("com.google.firebase:firebase-database")
+    implementation("com.google.firebase:firebase-auth")
 
 }
