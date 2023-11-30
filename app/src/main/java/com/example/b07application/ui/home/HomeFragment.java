@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.b07application.AnnouncementActivity;
+import com.example.b07application.HomeActivity;
 import com.example.b07application.PostActivity;
 import com.example.b07application.databinding.FragmentHomeBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -117,6 +119,17 @@ public class HomeFragment extends Fragment {
         final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
+    }
+
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        binding.announcementsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AnnouncementActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
