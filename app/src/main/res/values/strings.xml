@@ -60,4 +60,10 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+
+    <string name="button_post_text">Check POSt Qualification</string>
+    <string name="post_activity_spinner_title">Select a Program:</string>
+    <string name="button_next_text">Next</string>
+    <string name="button_prev_text_prev">Previous</string>
+
 </resources>
