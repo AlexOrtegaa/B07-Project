@@ -1,5 +1,6 @@
 package com.example.b07application.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.b07application.AnnouncementActivity;
+import com.example.b07application.HomeActivity;
 import com.example.b07application.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
@@ -27,6 +30,17 @@ public class HomeFragment extends Fragment {
         final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
+    }
+
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        binding.announcementsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AnnouncementActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
