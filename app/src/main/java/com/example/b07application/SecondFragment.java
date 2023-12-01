@@ -18,12 +18,18 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import users.User;
 
 
 public class SecondFragment extends Fragment {
 
     private FragmentSecondBinding binding;
     private FirebaseAuth mAuth;
+
+    FirebaseDatabase db;
 
     @Override
     public View onCreateView(
@@ -33,7 +39,7 @@ public class SecondFragment extends Fragment {
 
         binding = FragmentSecondBinding.inflate(inflater, container, false);
         mAuth = FirebaseAuth.getInstance();
-
+        db = FirebaseDatabase.getInstance("https://b07firebase-default-rtdb.firebaseio.com/");
 
         return binding.getRoot();
 
@@ -60,7 +66,13 @@ public class SecondFragment extends Fragment {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
-                                        // Sign in success, update UI with the signed-in user's information
+                                        //We add user objects in our database to track admins,
+                                        //as firebase does not provide admin capabilities
+                                        FirebaseUser user = mAuth.getCurrentUser();
+                                        DatabaseReference ref = db.getReference("users");
+                                        ref.push().setValue(new User(false, user.getUid()));
+
+                                        // Sign in success, update UI
                                         Toast.makeText(getActivity(), "Account successfully created.",
                                                 Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(getActivity(), HomeActivity.class);
