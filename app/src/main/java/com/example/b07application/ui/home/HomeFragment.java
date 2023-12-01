@@ -13,10 +13,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.b07application.AnnouncementActivity;
+import com.example.b07application.FirstFragment;
 import com.example.b07application.HomeActivity;
 import com.example.b07application.PostActivity;
+import com.example.b07application.R;
 import com.example.b07application.databinding.FragmentHomeBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -53,6 +56,13 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        binding.addEventButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment.findNavController(HomeFragment.this)
+                        .navigate(R.id.action_home_to_addEvent);
+            }
+        });
         //Im gonna use this stuff later, so im not gonna delete it yet. Sorry for the mess.
         /*
         binding.calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {

@@ -9,17 +9,34 @@
         android:id="@+id/navigation_home"
         android:name="com.example.b07application.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_home_to_addEvent"
+            app:destination="@id/navigation_addEvent" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.example.b07application.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard">
+
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.b07application.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_addEvent"
+        android:name="com.example.b07application.addEventFragment"
+        android:label="Add Events"
+        tools:layout="@layout/fragment_add_event">
+        <action
+            android:id="@+id/action_addEvent_to_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
+
 </navigation>
