@@ -14,14 +14,16 @@ package events;
 //eventsRef.push().setValueAsync(new Event("00/00/0000", 50, "description", "email"));
 public class Event {
     public String date;
+    public String title;
     public int maxParticipants;
     public String description;
     public String author;
     public double avgRating;
     public int numParticipants;
     public int numReviews;
-    public Event(String date, int maxParticipants, String description, String author){
+    public Event(String date, String title, int maxParticipants, String description, String author){
         this.date = date;
+        this.title = title;
         this.maxParticipants = maxParticipants;
         this.description = description;
         this.author = author;
@@ -31,14 +33,17 @@ public class Event {
     public Event(){
 
     }
+    public String getDate() {
+        return date;
+    }
+    public String getTitle() {
+        return title;
+    }
     public String getDescription() {
         return description;
     }
     public String getAuthor() {
         return author;
-    }
-    public String getDate() {
-        return date;
     }
     public int getMaxParticipants() {
         return maxParticipants;
