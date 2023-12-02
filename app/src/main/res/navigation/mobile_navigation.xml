@@ -39,4 +39,25 @@
             app:destination="@id/navigation_home" />
     </fragment>
 
+    <fragment
+        android:id="@+id/navigation_events"
+        android:name="com.example.b07application.EventListFragment"
+        android:label="Events"
+        tools:layout="@layout/fragment_event_list">
+        <action
+            android:id="@+id/action_events_to_eventDetail"
+            app:destination="@id/navigation_eventDetail" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_eventDetail"
+        android:name="com.example.b07application.EventDetailFragment"
+        android:label="Event Details"
+        tools:layout="@layout/fragment_event_detail">
+
+        <argument
+            android:name="eventID"
+            app:argType="string" />
+    </fragment>
+
 </navigation>

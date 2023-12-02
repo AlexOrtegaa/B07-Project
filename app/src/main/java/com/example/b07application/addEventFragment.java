@@ -83,7 +83,6 @@ public class addEventFragment extends Fragment {
         binding = FragmentAddEventBinding.inflate(inflater, container, false);
         db = FirebaseDatabase.getInstance("https://b07firebase-default-rtdb.firebaseio.com/");
         DatabaseReference ref = db.getReference("");
-
         binding.addEventCalender.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
@@ -98,19 +97,28 @@ public class addEventFragment extends Fragment {
             public void onClick(View v) {
                 DatabaseReference eventsRef = ref.child("events");
                 String title = String.valueOf(binding.addEventTitle.getText());
+                String location = String.valueOf(binding.addEventLocation.getText());
+                String time = String.valueOf(binding.addEventTime.getText());
 
                 //formatting the date
                 long givenDate = binding.addEventCalender.getDate();
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(givenDate);
-                SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
+                SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd", Locale.getDefault());
                 String setDate = dateFormat.format(calendar.getTime());
 
                 if(title.isEmpty()) {
                     Toast.makeText(getActivity(), "Please enter an title.", Toast.LENGTH_SHORT).show();
                 }
+                else if(location.isEmpty()) {
+                    Toast.makeText(getActivity(), "Please enter an location.", Toast.LENGTH_SHORT).show();
+                }
+                else if(time.isEmpty()) {
+                    Toast.makeText(getActivity(), "Please enter an time.", Toast.LENGTH_SHORT).show();
+                }
                 else {
-                    eventsRef.push().setValue(new Event(setDate, title, 50, "description", FirebaseAuth.getInstance().getCurrentUser().getEmail()));
+                    eventsRef.push().setValue(new Event(setDate, title, location, time, 50, "description",
+                            FirebaseAuth.getInstance().getCurrentUser().getEmail()));
                     Toast.makeText(getActivity(), "Event successfully posted", Toast.LENGTH_SHORT).show();
                     NavHostFragment.findNavController(addEventFragment.this)
                             .navigate(R.id.action_addEvent_to_home);

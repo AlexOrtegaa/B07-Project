@@ -78,9 +78,6 @@ public class HomeFragment extends Fragment {
                         if (!userExtraInfo.admin){
                             binding.addEventButton.setVisibility(View.GONE);
                         }
-                        //Toast.makeText(getActivity(), String.valueOf(test.date + " " + test.author),
-                        //        Toast.LENGTH_SHORT).show();
-                        //Log.d("myTag", userExtraInfo.uid + " " + user.admin);
 
                     }
                 }
@@ -92,40 +89,6 @@ public class HomeFragment extends Fragment {
                         Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
-        //example of fetching an event
-        //BTW, you cant just get a single object from the database, whenever you make a query,
-        //a list is returned in the form of DataSnapshot
-        //we just iterate over the list to get our objects
-        //also im pretty sure that whenever the database is changed, the addListenerForSingleValueEvent
-        //(or whatever other listener you use) gets called again
-        /*
-        DatabaseReference eventsRef = ref.child("events");
-        Query query = eventsRef.orderByChild("author").equalTo("testemail@gmail.com");
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    // dataSnapshot is the "event" node with all children with email testemail@gmail.com
-                    for (DataSnapshot event : dataSnapshot.getChildren()) {
-                        Event test = event.getValue(Event.class);
-                        //Toast.makeText(getActivity(), String.valueOf(test.date + " " + test.author),
-                        //        Toast.LENGTH_SHORT).show();
-                        Log.d("myTag",test.date + " " + test.author);
-
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(), String.valueOf(databaseError.getMessage()),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-        */
 
         View root = binding.getRoot();
 
