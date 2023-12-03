@@ -11,9 +11,11 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.b07application.databinding.FragmentEventDetailBinding;
 import com.example.b07application.databinding.FragmentEventListBinding;
+import com.example.b07application.ui.home.HomeFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -40,7 +42,7 @@ public class EventDetailFragment extends Fragment {
     FragmentEventDetailBinding binding;
     FirebaseDatabase db;
     FirebaseUser user;
-
+    String id;
     public EventDetailFragment() {
         // Required empty public constructor
     }
@@ -80,21 +82,18 @@ public class EventDetailFragment extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         DatabaseReference ref = db.getReference("");
-        String id = getArguments().getString("eventID");
+        id = getArguments().getString("eventID");
 
         DatabaseReference eventsRef = ref.child("events");
-        Log.d("myTag", id);
 
         Query query = eventsRef.orderByKey().equalTo(id);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("myTag", "in");
 
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot event : dataSnapshot.getChildren()) {
                         Event eventItem = event.getValue(Event.class);
-                        Log.d("myTag", "event exists");
 
                         //Log.d("myTag",eventItem.date + " " + eventItem.author);
                         binding.eventDetailTitle.setText(eventItem.title);
@@ -110,8 +109,6 @@ public class EventDetailFragment extends Fragment {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.d("myTag",String.valueOf(databaseError.getMessage()));
-                //Toast.makeText(getActivity(), String.valueOf(databaseError.getMessage()),
-                //        Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -135,6 +132,16 @@ public class EventDetailFragment extends Fragment {
             public void onCancelled(DatabaseError databaseError) {
                 Toast.makeText(getActivity(), String.valueOf(databaseError.getMessage()),
                         Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        binding.eventDetailReviewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle b = new Bundle();
+                b.putString("eventID", id);
+                NavHostFragment.findNavController(EventDetailFragment.this)
+                        .navigate(R.id.action_eventDetail_to_eventReview, b);
             }
         });
 

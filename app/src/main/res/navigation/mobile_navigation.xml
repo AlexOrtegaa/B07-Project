@@ -58,6 +58,25 @@
         <argument
             android:name="eventID"
             app:argType="string" />
+
+        <action
+            android:id="@+id/action_eventDetail_to_eventReview"
+            app:destination="@id/navigation_eventReview" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_eventReview"
+        android:name="com.example.b07application.EventReviewFragment"
+        android:label="Review Event"
+        tools:layout="@layout/fragment_event_review">
+
+        <action
+            android:id="@+id/action_eventReview_to_eventDetail"
+            app:destination="@id/navigation_eventDetail" />
+
+        <argument
+            android:name="eventID"
+            app:argType="string" />
     </fragment>
 
 </navigation>
