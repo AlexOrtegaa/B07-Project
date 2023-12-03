@@ -21,6 +21,9 @@
             android:name=".PostActivity"
             android:exported="false" />
         <activity
+            android:name=".complaints.ComplaintsActivity"
+            android:exported="false" />
+        <activity
             android:name=".HomeActivity"
             android:exported="true"
             android:label="@string/title_activity_home"
