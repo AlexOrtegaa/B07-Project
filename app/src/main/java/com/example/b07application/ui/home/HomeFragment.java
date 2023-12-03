@@ -2,11 +2,9 @@ package com.example.b07application.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CalendarView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,10 +14,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.b07application.AnnouncementActivity;
-import com.example.b07application.FirstFragment;
-import com.example.b07application.HomeActivity;
 import com.example.b07application.PostActivity;
 import com.example.b07application.R;
+import com.example.b07application.complaints.ComplaintsActivity;
 import com.example.b07application.databinding.FragmentHomeBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,11 +27,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
-
-import events.Event;
 import users.User;
 
 public class HomeFragment extends Fragment {
@@ -55,6 +47,15 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), PostActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        binding.checkComplaintsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(),
+                        ComplaintsActivity.class);
                 startActivity(intent);
             }
         });
