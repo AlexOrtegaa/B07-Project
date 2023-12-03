@@ -5,6 +5,9 @@ public class Announcement {
     private String author;
     private String body;
 
+    public Announcement() {
+    }
+
     public Announcement(String title, String author, String body) {
         this.title = title;
         this.author = author;
