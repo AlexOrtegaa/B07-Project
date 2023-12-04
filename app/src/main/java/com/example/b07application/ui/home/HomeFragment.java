@@ -77,6 +77,7 @@ public class HomeFragment extends Fragment {
                         User userExtraInfo = user.getValue(User.class);
                         if (!userExtraInfo.admin){
                             binding.addEventButton.setVisibility(View.GONE);
+                            binding.announcementsButton.setVisibility(View.GONE);
                         }
 
                     }

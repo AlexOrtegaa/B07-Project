@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ViewAnnouncementsFragment extends Fragment {
 
@@ -58,21 +59,13 @@ public class ViewAnnouncementsFragment extends Fragment {
                     Announcement announcement = snapshot.getValue(Announcement.class);
                     announcementList.add(announcement);
                 }
+                Collections.reverse(announcementList);
                 announcementViewAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
-        });
-
-        binding.previousButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(ViewAnnouncementsFragment.this)
-                        .navigate(R.id.action_Second2Fragment_to_First2Fragment);
-            }
-
         });
     }
 
