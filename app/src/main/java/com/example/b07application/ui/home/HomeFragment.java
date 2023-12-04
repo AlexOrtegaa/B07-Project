@@ -1,5 +1,6 @@
 package com.example.b07application.ui.home;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.b07application.AnnouncementActivity;
+import com.example.b07application.ComplaintActivity;
 import com.example.b07application.PostActivity;
 import com.example.b07application.R;
 import com.example.b07application.complaints.ComplaintsActivity;
@@ -43,6 +45,13 @@ public class HomeFragment extends Fragment {
         DatabaseReference ref = db.getReference("");
         binding = FragmentHomeBinding.inflate(inflater, container, false);
 
+        binding.Complaints.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ComplaintActivity.class);
+                startActivity(intent);
+            }
+        }) ;
         binding.checkPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
