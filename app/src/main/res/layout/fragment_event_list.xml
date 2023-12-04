@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity"
-    android:fillViewport="true"
-    >
-    <androidx.constraintlayout.widget.ConstraintLayout
+    tools:context=".MainActivity">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/eventList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".addEventFragment">
+        android:scrollbars="vertical"
+        app:layoutManager="LinearLayoutManager" />
 
-        <androidx.recyclerview.widget.RecyclerView
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addEventFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_marginBottom="16dp"
+        app:srcCompat="@android:drawable/ic_input_add"
+        android:tint="@color/black"/>
 
-            android:id="@+id/eventList"
-            android:layout_width="409dp"
-            android:layout_height="729dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+</FrameLayout>

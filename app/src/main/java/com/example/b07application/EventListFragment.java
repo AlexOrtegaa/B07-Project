@@ -26,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import Misc.SessionInfo;
 import events.Event;
 import events.EventAdapter;
 
@@ -122,8 +123,16 @@ public class EventListFragment extends Fragment implements RecyclerViewInterface
                         Toast.LENGTH_SHORT).show();
             }
         });
-
-
+        if (!SessionInfo.getInstance().isAdmin){
+            binding.addEventFab.setVisibility(View.GONE);
+        }
+        binding.addEventFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment.findNavController(EventListFragment.this)
+                        .navigate(R.id.action_events_to_addEvent);
+            }
+        });
 
         return binding.getRoot();
     }
