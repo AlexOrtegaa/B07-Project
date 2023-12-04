@@ -17,8 +17,23 @@
             android:exported="false"
             android:label="@string/title_activity_announcements"
             android:theme="@style/Theme.B07Application" />
+
+        <activity
+            android:name=".ComplaintActivity"
+            android:exported="false"
+            android:label="Complaints"
+            android:theme="@style/Theme.B07Application" />
+
+        <activity
+            android:name=".ComplaintDetailActivity"
+            android:exported="false"
+            android:label="Complaint details"
+            android:theme="@style/Theme.B07Application" />
         <activity
             android:name=".PostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".complaints.ComplaintsActivity"
             android:exported="false" />
         <activity
             android:name=".HomeActivity"

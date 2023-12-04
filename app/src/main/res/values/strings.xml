@@ -65,5 +65,7 @@
     <string name="post_activity_spinner_title">Select a Program:</string>
     <string name="button_next_text">Next</string>
     <string name="button_prev_text_prev">Previous</string>
+    <string name="description_complaints_hint">A short description or title</string>
+    <string name="text_complaints_hint">Write down the troubles you met</string>
 
 </resources>
