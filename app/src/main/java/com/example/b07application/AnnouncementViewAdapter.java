@@ -38,6 +38,7 @@ public class AnnouncementViewAdapter extends RecyclerView.Adapter<AnnouncementVi
 
         holder.title.setText(announcement.getTitle());
         holder.author.setText(announcement.getAuthor());
+        holder.date.setText(announcement.getDate());
         holder.body.setText(announcement.getBody());
     }
 
@@ -49,11 +50,13 @@ public class AnnouncementViewAdapter extends RecyclerView.Adapter<AnnouncementVi
     public static class AnnouncementViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         TextView author;
+        TextView date;
         TextView body;
         public AnnouncementViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.sampleTitle);
             author = itemView.findViewById(R.id.sampleAuthor);
+            date = itemView.findViewById(R.id.sampleDate);
             body = itemView.findViewById(R.id.sampleBody);
         }
     }

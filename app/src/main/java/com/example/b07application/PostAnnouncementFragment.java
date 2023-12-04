@@ -15,6 +15,8 @@ import com.example.b07application.ui.Announcement;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import java.util.Calendar;
+import java.util.Date;
 
 public class PostAnnouncementFragment extends Fragment {
     private FragmentPostAnnouncementBinding binding;
@@ -50,10 +52,10 @@ public class PostAnnouncementFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String title = binding.announcementTitle.getText().toString();
-                String author = "Anonymous"; /* Replace with databaseAuth.getInstance().
-                getCurrentUser().getEmail(); in final ver */
+                String author = databaseAuth.getInstance().getCurrentUser().getEmail();
+                String date = Calendar.getInstance().getTime().toString();
                 String body = binding.announcementBody.getText().toString();
-                Announcement announcement = new Announcement(title, author, body);
+                Announcement announcement = new Announcement(title, author, date, body);
 
                 if (isReadyToPost(announcement)) {
                     announcementsRef.push().setValue(announcement);
@@ -80,7 +82,7 @@ public class PostAnnouncementFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(PostAnnouncementFragment.this)
-                        .navigate(R.id.action_First2Fragment_to_homeFragment2);
+                        .navigate(R.id.action_postAnnouncementFragment_to_navigation_home);
             }
         });
 
