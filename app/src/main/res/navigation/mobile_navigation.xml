@@ -10,9 +10,6 @@
         android:name="com.example.b07application.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_home_to_addEvent"
-            app:destination="@id/navigation_addEvent" />
     </fragment>
 
     <fragment
@@ -47,6 +44,9 @@
         <action
             android:id="@+id/action_events_to_eventDetail"
             app:destination="@id/navigation_eventDetail" />
+        <action
+            android:id="@+id/action_events_to_addEvent"
+            app:destination="@id/navigation_addEvent" />
     </fragment>
 
     <fragment

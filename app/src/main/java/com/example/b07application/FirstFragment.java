@@ -20,13 +20,21 @@ import com.google.firebase.Firebase;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import Misc.SessionInfo;
+import users.User;
 
 public class FirstFragment extends Fragment {
 
     private FragmentFirstBinding binding;
     private FirebaseAuth mAuth;
+    FirebaseDatabase db;
 
 
     @Override
@@ -45,7 +53,9 @@ public class FirstFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        db = FirebaseDatabase.getInstance("https://b07firebase-default-rtdb.firebaseio.com/");
 
+        DatabaseReference ref = db.getReference("");
         binding.buttonNewAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,6 +84,27 @@ public class FirstFragment extends Fragment {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         // Sign in success, update UI with the signed-in user's information
+                                        FirebaseUser user = mAuth.getCurrentUser();
+                                        DatabaseReference userRef = ref.child("users");
+                                        Query userQuery = userRef.orderByChild("uid").equalTo(user.getUid());
+                                        userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                if (dataSnapshot.exists()) {
+                                                    for (DataSnapshot user : dataSnapshot.getChildren()) {
+                                                        User userExtraInfo = user.getValue(User.class);
+                                                        SessionInfo.getInstance().isAdmin=userExtraInfo.admin;
+                                                    }
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+                                                Toast.makeText(getActivity(), String.valueOf(databaseError.getMessage()),
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
                                         Intent intent = new Intent(getActivity(), HomeActivity.class);
                                         startActivity(intent);
                                     } else {

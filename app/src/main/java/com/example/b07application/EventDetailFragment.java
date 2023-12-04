@@ -27,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Collections;
 
+import Misc.SessionInfo;
 import events.Event;
 import users.User;
 
@@ -113,27 +114,9 @@ public class EventDetailFragment extends Fragment {
         });
 
 
-        DatabaseReference userRef = ref.child("users");
-        Query userQuery = userRef.orderByChild("uid").equalTo(user.getUid());
-        userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot user : dataSnapshot.getChildren()) {
-                        User userExtraInfo = user.getValue(User.class);
-                        if (!userExtraInfo.admin){
-                            binding.eventDetailAdminInfo.setVisibility(View.GONE);
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(), String.valueOf(databaseError.getMessage()),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (!SessionInfo.getInstance().isAdmin){
+            binding.eventDetailAdminInfo.setVisibility(View.GONE);
+        }
 
         binding.eventDetailReviewButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -34,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import Misc.SessionInfo;
 import events.Event;
 import users.User;
 
@@ -59,36 +60,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        binding.addEventButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NavHostFragment.findNavController(HomeFragment.this)
-                        .navigate(R.id.action_home_to_addEvent);
-            }
-        });
 
-        DatabaseReference eventsRef = ref.child("users");
-        Query query = eventsRef.orderByChild("uid").equalTo(user.getUid());
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot user : dataSnapshot.getChildren()) {
-                        User userExtraInfo = user.getValue(User.class);
-                        if (!userExtraInfo.admin){
-                            binding.addEventButton.setVisibility(View.GONE);
-                        }
-
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(), String.valueOf(databaseError.getMessage()),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
 
         View root = binding.getRoot();
 
