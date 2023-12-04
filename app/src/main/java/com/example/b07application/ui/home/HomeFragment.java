@@ -85,6 +85,29 @@ public class HomeFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference userRef = FirebaseDatabase
+                .getInstance("https://b07firebase-default-rtdb.firebaseio.com/")
+                .getReference().child("users");
+        Query userQuery = userRef.orderByChild("uid").equalTo(user.getUid());
+        userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot user : dataSnapshot.getChildren()) {
+                        User userExtraInfo = user.getValue(User.class);
+                        if (!userExtraInfo.admin) {
+                            binding.announcementsButton.setVisibility(View.GONE);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
         binding.announcementsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
