@@ -68,26 +68,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        binding.addEventButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NavHostFragment.findNavController(HomeFragment.this)
-                        .navigate(R.id.action_home_to_addEvent);
-            }
-        });
-
-        DatabaseReference eventsRef = ref.child("users");
-        Query query = eventsRef.orderByChild("uid").equalTo(user.getUid());
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot user : dataSnapshot.getChildren()) {
-                        User userExtraInfo = user.getValue(User.class);
-                        if (!userExtraInfo.admin){
-                            binding.addEventButton.setVisibility(View.GONE);
-                        }
-
         View root = binding.getRoot();
 
         final TextView textView = binding.textHome;
