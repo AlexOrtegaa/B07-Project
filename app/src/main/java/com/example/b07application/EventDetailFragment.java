@@ -29,6 +29,7 @@ import java.util.Collections;
 
 import Misc.SessionInfo;
 import events.Event;
+import events.EventRSVP;
 import users.User;
 
 public class EventDetailFragment extends Fragment {
@@ -43,7 +44,6 @@ public class EventDetailFragment extends Fragment {
     FragmentEventDetailBinding binding;
     FirebaseDatabase db;
     FirebaseUser user;
-    String id;
     public EventDetailFragment() {
         // Required empty public constructor
     }
@@ -83,7 +83,7 @@ public class EventDetailFragment extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         DatabaseReference ref = db.getReference("");
-        id = getArguments().getString("eventID");
+        String id = getArguments().getString("eventID");
 
         DatabaseReference eventsRef = ref.child("events");
 
@@ -125,6 +125,41 @@ public class EventDetailFragment extends Fragment {
                 b.putString("eventID", id);
                 NavHostFragment.findNavController(EventDetailFragment.this)
                         .navigate(R.id.action_eventDetail_to_eventReview, b);
+            }
+        });
+
+        binding.eventDetailJoinButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String uid = user.getUid();
+                DatabaseReference RSVPRef = ref.child("RSVP_Event");
+                Query RSVPQuery = RSVPRef.orderByChild("uid").equalTo(uid);
+                EventRSVP RSVP = new EventRSVP(uid, id);
+                RSVPQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            boolean exist = false;
+                            for (DataSnapshot RSVP : dataSnapshot.getChildren()) {
+                                EventRSVP uid_Event = RSVP.getValue(EventRSVP.class);
+                                if (uid_Event.getEvent().equals(id)){
+                                    exist = true;
+                                }
+                            }
+                            if(exist==false){
+                                RSVPRef.push().setValue(RSVP);
+                            }
+                        } else {
+                            RSVPRef.push().setValue(RSVP);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(getActivity(), String.valueOf(databaseError.getMessage()),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 

@@ -10,19 +10,19 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.b07application.databinding.FragmentFirst2Binding;
+import com.example.b07application.databinding.FragmentPostAnnouncementBinding;
 import com.example.b07application.ui.Announcement;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class First2Fragment extends Fragment {
-    private FragmentFirst2Binding binding;
+public class PostAnnouncementFragment extends Fragment {
+    private FragmentPostAnnouncementBinding binding;
     private DatabaseReference databaseRef;
     private DatabaseReference announcementsRef;
     private FirebaseAuth databaseAuth;
 
-    private boolean isAnnouncementValid(Announcement announcement) {
+    private boolean isReadyToPost(Announcement announcement) {
         String title = announcement.getTitle();
         String author = announcement.getAuthor();
         String body = announcement.getBody();
@@ -35,7 +35,7 @@ public class First2Fragment extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-        binding = FragmentFirst2Binding.inflate(inflater, container, false);
+        binding = FragmentPostAnnouncementBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -46,14 +46,6 @@ public class First2Fragment extends Fragment {
                 .getInstance("https://b07firebase-default-rtdb.firebaseio.com/").getReference();
         announcementsRef = databaseRef.child("Announcements");
 
-        binding.button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(First2Fragment.this)
-                        .navigate(R.id.action_First2Fragment_to_Second2Fragment);
-            }
-        });
-
         binding.postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,7 +55,7 @@ public class First2Fragment extends Fragment {
                 String body = binding.announcementBody.getText().toString();
                 Announcement announcement = new Announcement(title, author, body);
 
-                if (isAnnouncementValid(announcement)) {
+                if (isReadyToPost(announcement)) {
                     announcementsRef.push().setValue(announcement);
                     Toast.makeText(
                             getActivity(), "Announcement posted", Toast.LENGTH_SHORT
@@ -75,6 +67,23 @@ public class First2Fragment extends Fragment {
                 }
             }
         });
+
+        binding.viewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(PostAnnouncementFragment.this)
+                        .navigate(R.id.action_First2Fragment_to_Second2Fragment);
+            }
+        });
+
+        binding.backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(PostAnnouncementFragment.this)
+                        .navigate(R.id.action_First2Fragment_to_homeFragment2);
+            }
+        });
+
     }
 
     @Override
