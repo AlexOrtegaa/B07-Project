@@ -29,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Collections;
 
+import Misc.SessionInfo;
 import events.Event;
 import events.EventRSVP;
 import users.User;
@@ -45,6 +46,8 @@ public class EventDetailFragment extends Fragment {
     FragmentEventDetailBinding binding;
     FirebaseDatabase db;
     FirebaseUser user;
+    int numParticipants;
+    boolean exist;
     public EventDetailFragment() {
         // Required empty public constructor
     }
@@ -115,27 +118,9 @@ public class EventDetailFragment extends Fragment {
         });
 
 
-        DatabaseReference userRef = ref.child("users");
-        Query userQuery = userRef.orderByChild("uid").equalTo(user.getUid());
-        userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot user : dataSnapshot.getChildren()) {
-                        User userExtraInfo = user.getValue(User.class);
-                        if (!userExtraInfo.admin){
-                            binding.eventDetailAdminInfo.setVisibility(View.GONE);
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(), String.valueOf(databaseError.getMessage()),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (!SessionInfo.getInstance().isAdmin){
+            binding.eventDetailAdminInfo.setVisibility(View.GONE);
+        }
 
         binding.eventDetailReviewButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,6 +135,33 @@ public class EventDetailFragment extends Fragment {
         binding.eventDetailJoinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                exist = false;
+                DatabaseReference EventRef = ref.child("events");
+                Query eventQuery = EventRef.orderByKey().equalTo(id);
+                eventQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            for (DataSnapshot event : dataSnapshot.getChildren()) {
+                                Event eventItem = event.getValue(Event.class);
+                                int maxParticipants = eventItem.maxParticipants;
+                                numParticipants = eventItem.numParticipants;
+                                if(maxParticipants>numParticipants){
+                                    exist = true;
+                                } else{
+                                    Toast.makeText(getActivity(), "Currently Full",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(getActivity(), String.valueOf(databaseError.getMessage()),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
                 String uid = user.getUid();
                 DatabaseReference RSVPRef = ref.child("RSVP_Event");
                 Query RSVPQuery = RSVPRef.orderByChild("uid").equalTo(uid);
@@ -158,18 +170,23 @@ public class EventDetailFragment extends Fragment {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
-                            boolean exist = false;
+                            exist = false;
                             for (DataSnapshot RSVP : dataSnapshot.getChildren()) {
                                 EventRSVP uid_Event = RSVP.getValue(EventRSVP.class);
-                                if (uid_Event.getEvent().equals(id)){
+                                if (uid_Event.event.equals(id)){
                                     exist = true;
                                 }
                             }
                             if(exist==false){
                                 RSVPRef.push().setValue(RSVP);
+                                ref.child("events").child(id).child("numParticipants").setValue(numParticipants + 1);
+                            } else {
+                                Toast.makeText(getActivity(), "Already Joined",
+                                        Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             RSVPRef.push().setValue(RSVP);
+                            ref.child("events").child(id).child("numParticipants").setValue(numParticipants + 1);
                         }
                     }
 

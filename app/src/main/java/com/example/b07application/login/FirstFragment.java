@@ -1,8 +1,8 @@
-package com.example.b07application;
+package com.example.b07application.login;
+
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,20 +13,29 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.b07application.HomeActivity;
+import com.example.b07application.R;
 import com.example.b07application.databinding.FragmentFirstBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
-public class FirstFragment extends Fragment {
+import Misc.SessionInfo;
+import users.User;
+
+public class FirstFragment extends Fragment implements ViewInterface{
 
     private FragmentFirstBinding binding;
-    private FirebaseAuth mAuth;
+
+    LoginPresenter presenter;
 
 
     @Override
@@ -36,8 +45,7 @@ public class FirstFragment extends Fragment {
     ) {
 
         binding = FragmentFirstBinding.inflate(inflater, container, false);
-        // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
+        presenter = new LoginPresenter(this, new LoginModel());
 
         return binding.getRoot();
     }
@@ -60,41 +68,32 @@ public class FirstFragment extends Fragment {
 
                 String email = String.valueOf(binding.email.getText());
                 String password = String.valueOf(binding.password.getText());
-
                 if(email.isEmpty()) {
-                    Toast.makeText(getActivity(), "Please enter an email.", Toast.LENGTH_SHORT).show();
+                    makeToast("Please enter an email.");
                 }
                 else if(password.isEmpty()) {
-                    Toast.makeText(getActivity(), "Please enter a password.", Toast.LENGTH_SHORT).show();
+                    makeToast("Please enter a password.");
                 }
                 else {
-                    mAuth.signInWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        // Sign in success, update UI with the signed-in user's information
-                                        Intent intent = new Intent(getActivity(), HomeActivity.class);
-                                        startActivity(intent);
-                                    } else {
-                                        // If sign in fails, display a message to the user.
-                                        Log.w("LOGIN", "signInWithEmail:failure", task.getException());
-                                        Toast.makeText(getActivity(), "Authentication failed.",
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
+                    presenter.doLogin(email, password);
                 }
-
-
             }
         });
     }
-
+    public void changeActivity() {
+        Intent intent = new Intent(getActivity(), HomeActivity.class);
+        startActivity(intent);
+    }
+    public void makeToast(String message) {
+        Toast.makeText(getActivity(), message,
+                Toast.LENGTH_SHORT).show();
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+
     }
+
 
 }

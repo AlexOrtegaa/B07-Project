@@ -13,6 +13,12 @@
         <action
             android:id="@+id/action_home_to_addEvent"
             app:destination="@id/navigation_addEvent" />
+        <action
+            android:id="@+id/action_navigation_home_to_viewAnnouncementsFragment"
+            app:destination="@id/viewAnnouncementsFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_postAnnouncementFragment"
+            app:destination="@id/postAnnouncementFragment" />
     </fragment>
 
     <fragment
@@ -47,6 +53,9 @@
         <action
             android:id="@+id/action_events_to_eventDetail"
             app:destination="@id/navigation_eventDetail" />
+        <action
+            android:id="@+id/action_events_to_addEvent"
+            app:destination="@id/navigation_addEvent" />
     </fragment>
 
     <fragment
@@ -77,6 +86,24 @@
         <argument
             android:name="eventID"
             app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/viewAnnouncementsFragment"
+        android:name="com.example.b07application.ViewAnnouncementsFragment"
+        android:label="Announcements"
+        tools:layout="@layout/fragment_view_announcements" />
+    <fragment
+        android:id="@+id/postAnnouncementFragment"
+        android:name="com.example.b07application.PostAnnouncementFragment"
+        android:label="fragment_post_announcement"
+        tools:layout="@layout/fragment_post_announcement" >
+        <action
+            android:id="@+id/action_postAnnouncementFragment_to_viewAnnouncementsFragment"
+            app:destination="@id/viewAnnouncementsFragment" />
+        <action
+            android:id="@+id/action_postAnnouncementFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
     </fragment>
 
 </navigation>
