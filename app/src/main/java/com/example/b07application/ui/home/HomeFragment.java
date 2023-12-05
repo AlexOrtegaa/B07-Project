@@ -52,6 +52,8 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         }) ;
+
+
         binding.checkPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,7 +78,6 @@ public class HomeFragment extends Fragment {
                         .navigate(R.id.action_home_to_addEvent);
             }
         });
-
         DatabaseReference eventsRef = ref.child("users");
         Query query = eventsRef.orderByChild("uid").equalTo(user.getUid());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -92,6 +93,7 @@ public class HomeFragment extends Fragment {
                     }
                 }
             }
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
