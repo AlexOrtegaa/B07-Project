@@ -5,6 +5,7 @@ plugins {
 }
 
 android {
+
     namespace = "com.example.b07application"
     compileSdk = 34
 
@@ -31,6 +32,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
 }
 
 dependencies {
@@ -51,5 +53,6 @@ dependencies {
     // Add the dependency for the Realtime Database library
     implementation("com.google.firebase:firebase-database")
     implementation("com.google.firebase:firebase-auth")
+    testImplementation("org.mockito:mockito-core:5.8.0");
 
 }
