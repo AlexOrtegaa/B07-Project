@@ -59,6 +59,8 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         }) ;
+
+
         binding.checkPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,6 +78,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
+
         View root = binding.getRoot();
 
         final TextView textView = binding.textHome;
@@ -92,6 +95,7 @@ public class HomeFragment extends Fragment {
                 .getReference().child("users");
         Query userQuery = userRef.orderByChild("uid").equalTo(user.getUid());
         userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -103,6 +107,7 @@ public class HomeFragment extends Fragment {
                     }
                 }
             }
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {

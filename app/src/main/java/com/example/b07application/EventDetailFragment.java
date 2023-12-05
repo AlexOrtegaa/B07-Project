@@ -1,5 +1,7 @@
 package com.example.b07application;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -195,6 +197,14 @@ public class EventDetailFragment extends Fragment {
                     }
                 });
             }
+        });
+
+        binding.eventAccesFeedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getActivity(), FeedbackActivity.class);
+                startActivity(intent);}
         });
 
         return binding.getRoot();

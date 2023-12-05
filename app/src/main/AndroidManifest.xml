@@ -19,6 +19,17 @@
             android:theme="@style/Theme.B07Application" />
 
         <activity
+            android:name=".FeedbackActivity"
+            android:exported="false"
+            android:label="Feedbacks"
+            android:theme="@style/Theme.B07Application" />
+
+        <activity
+            android:name=".FeedbackDetailActivity"
+            android:exported="false"
+            android:label="Complaint details"
+            android:theme="@style/Theme.B07Application" />
+        <activity
             android:name=".ComplaintActivity"
             android:exported="false"
             android:label="Complaints"

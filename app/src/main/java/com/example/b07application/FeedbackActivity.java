@@ -6,13 +6,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.example.b07application.databinding.ActivityComplaintBinding;
+import com.example.b07application.databinding.ActivityFeedbackBinding;
 import com.example.b07application.databinding.ComplaintDetailBinding;
+import com.example.b07application.databinding.FeedbackDetailBinding;
 import com.example.b07application.ui.home.HomeFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,29 +25,35 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ComplaintActivity extends AppCompatActivity {
+public class FeedbackActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    List<com.example.b07application.ComplaintDataClass> dataList;
+    List<com.example.b07application.FeedbackDataClass> dataList;
     DatabaseReference databaseReference;
     ValueEventListener eventListener;
-    com.example.b07application.MyAdapterComplaint adapter;
-    private ActivityComplaintBinding binding;
+    com.example.b07application.MyAdapterFeedback adapter;
+    private ActivityFeedbackBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        binding = ActivityComplaintBinding.inflate(getLayoutInflater());
-
+        binding = ActivityFeedbackBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
+        binding.activityFeedbackEventAccess.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        recyclerView = findViewById(R.id.recyclerViewComplaint);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(ComplaintActivity.this, 1);
+                Intent intent = new Intent(FeedbackActivity.this, HomeFragment.class);
+                startActivity(intent);}
+
+        }) ;
+
+        recyclerView = findViewById(R.id.recyclerViewFeedback);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(FeedbackActivity.this, 1);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(ComplaintActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(FeedbackActivity.this);
         builder.setCancelable(false);
         builder.setView(R.layout.progress_layout);
         AlertDialog dialog = builder.create();
@@ -53,27 +61,19 @@ public class ComplaintActivity extends AppCompatActivity {
 
         dataList = new ArrayList<>();
 
-        adapter = new com.example.b07application.MyAdapterComplaint(ComplaintActivity.this, dataList);
+        adapter = new com.example.b07application.MyAdapterFeedback(FeedbackActivity.this, dataList);
         recyclerView.setAdapter(adapter);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Complaints");
+        databaseReference = FirebaseDatabase.getInstance().getReference("eventReviews");
         dialog.show();
-         // admin?
-        binding.activityComplaintBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                Intent intent = new Intent(ComplaintActivity.this, HomeActivity.class);
-                startActivity(intent);}
-
-        }) ;
         eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 dataList.clear();
                 for(DataSnapshot itemSnapshot: snapshot.getChildren()) {
 
-                    com.example.b07application.ComplaintDataClass dataClass = itemSnapshot.getValue((com.example.b07application.ComplaintDataClass.class));
+                    com.example.b07application.FeedbackDataClass dataClass = itemSnapshot.getValue((com.example.b07application.FeedbackDataClass.class));
                     dataList.add(dataClass);
                 }
 
