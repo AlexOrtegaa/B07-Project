@@ -88,14 +88,14 @@ public class EventReviewFragment extends Fragment {
             public void onClick(View v) {
                 DatabaseReference eventsReviewsRef = ref.child("eventReviews");
                 String comment = String.valueOf(binding.eventReviewComment.getText());
-                int rating = Integer.parseInt(String.valueOf(binding.eventReviewRating.getText()));
-
+                String ratingString = String.valueOf(binding.eventReviewRating.getText());
+                int rating = ratingString.isEmpty() ? -1 : Integer.parseInt(ratingString);
 
                 if(comment.isEmpty()) {
                     Toast.makeText(getActivity(), "Please enter an comment.", Toast.LENGTH_SHORT).show();
                 }
                 else if(rating > 10 || rating < 0) {
-                    Toast.makeText(getActivity(), "Please enter an rating between 1-10.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Please enter an rating between 0-10.", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     eventsReviewsRef.push().setValue(new EventReview(FirebaseAuth.getInstance().getCurrentUser().getEmail(), comment, rating, id));
