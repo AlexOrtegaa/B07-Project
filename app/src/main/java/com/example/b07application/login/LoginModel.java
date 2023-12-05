@@ -52,7 +52,7 @@ public class LoginModel {
     public void attemptRegister(String email, String password, LoginPresenter presenter) {
 
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(presenter.getViewActivity(), new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {

@@ -10,9 +10,6 @@ public class LoginPresenter {
         this.view = view;
         this.model=model;
     }
-    public Activity getViewActivity() {
-        return view.getActivity();
-    }
     public void changeViewActivity() {
         view.changeActivity();
     }
@@ -27,8 +24,6 @@ public class LoginPresenter {
 
     }
     public void doRegister(String email, String password) {
-
         model.attemptRegister(email, password, this);
-
     }
 }

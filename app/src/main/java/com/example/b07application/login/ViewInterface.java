@@ -9,6 +9,4 @@ import com.example.b07application.HomeActivity;
 public interface ViewInterface {
     void changeActivity();
     void makeToast(String message);
-
-    Activity getActivity();
 }
