@@ -26,6 +26,7 @@
         android:id="@+id/Complaints"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="160dp"
         android:text="View complaints"
         app:layout_constraintBottom_toTopOf="@+id/addEventButton"
         app:layout_constraintEnd_toEndOf="parent"
