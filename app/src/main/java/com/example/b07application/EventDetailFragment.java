@@ -177,40 +177,42 @@ public class EventDetailFragment extends Fragment {
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
-                String uid = user.getUid();
-                DatabaseReference RSVPRef = ref.child("RSVP_Event");
-                Query RSVPQuery = RSVPRef.orderByChild("uid").equalTo(uid);
-                EventRSVP RSVP = new EventRSVP(uid, id);
-                RSVPQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            exist = false;
-                            for (DataSnapshot RSVP : dataSnapshot.getChildren()) {
-                                EventRSVP uid_Event = RSVP.getValue(EventRSVP.class);
-                                if (uid_Event.event.equals(id)){
-                                    exist = true;
+                if(exist == true) {
+                    String uid = user.getUid();
+                    DatabaseReference RSVPRef = ref.child("RSVP_Event");
+                    Query RSVPQuery = RSVPRef.orderByChild("uid").equalTo(uid);
+                    EventRSVP RSVP = new EventRSVP(uid, id);
+                    RSVPQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                exist = false;
+                                for (DataSnapshot RSVP : dataSnapshot.getChildren()) {
+                                    EventRSVP uid_Event = RSVP.getValue(EventRSVP.class);
+                                    if (uid_Event.event.equals(id)) {
+                                        exist = true;
+                                    }
                                 }
-                            }
-                            if(exist==false){
+                                if (exist == false) {
+                                    RSVPRef.push().setValue(RSVP);
+                                    ref.child("events").child(id).child("numParticipants").setValue(numParticipants + 1);
+                                } else {
+                                    Toast.makeText(getActivity(), "Already Joined",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
                                 RSVPRef.push().setValue(RSVP);
                                 ref.child("events").child(id).child("numParticipants").setValue(numParticipants + 1);
-                            } else {
-                                Toast.makeText(getActivity(), "Already Joined",
-                                        Toast.LENGTH_SHORT).show();
                             }
-                        } else {
-                            RSVPRef.push().setValue(RSVP);
-                            ref.child("events").child(id).child("numParticipants").setValue(numParticipants + 1);
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Toast.makeText(getActivity(), String.valueOf(databaseError.getMessage()),
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Toast.makeText(getActivity(), String.valueOf(databaseError.getMessage()),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
 
